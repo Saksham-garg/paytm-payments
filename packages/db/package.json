@@ -1,5 +1,5 @@
 {
-  "name": "@saksham-dev/db",
+  "name": "@repo/db",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -11,5 +11,8 @@
   "description": "",
   "dependencies": {
     "@prisma/client": "^5.15.0"
+  },
+  "exports": {
+    "./client": "./index.ts"
   }
 }
