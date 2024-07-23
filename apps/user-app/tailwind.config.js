@@ -10,7 +10,10 @@ module.exports = {
     "../../packages/ui/src/**/*.{js,ts,jsx,tsx,mdx}"
   ],
   theme: {
-    extend: {},
+    extend: {
+      backgroundImage: {
+      }
+    },
   },
   plugins: [],
 }
