@@ -1,4 +1,5 @@
 import { Button } from "./button";
+import Link from 'next/link'
 
 interface AppbarProps {
     user?: {
@@ -15,11 +16,25 @@ export const Appbar = ({
     onSignout
 }: AppbarProps) => {
     return <div className="flex justify-between px-4 max-w-7xl w-full m-auto">
-        <div className="text-2xl flex flex-col justify-center font-bold text-blue-600">
-            PayZee
-        </div>
+        <Link href={"/"} className="text-2xl flex flex-col justify-center font-bold text-blue-600">
+                PayZee
+        </Link>
         <div className="flex flex-col justify-center pt-2">
-            <Button onClick={user ? onSignout : onSignin}>{user ? "Logout" : "Login"}</Button>
+            {
+                user ? (
+                    <Button onClick={user ? onSignout : onSignin}>{user ? "Logout" : "Login"}</Button>
+                ):
+                (
+                    <div className="flex gap-4">
+                        <Link href='/signin'>
+                            <Button onClick={() => {}}>Sign In</Button>
+                        </Link>
+                        <Link href='/login'>
+                            <Button onClick={() => {}}>Join Payzee</Button>
+                        </Link>
+                    </div>
+                )
+            }
         </div>
     </div>
 }
