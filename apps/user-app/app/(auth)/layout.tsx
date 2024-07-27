@@ -1,8 +1,11 @@
 "use client"
 import React from 'react'
 import Image from 'next/image'
+import { Toaster } from 'react-hot-toast'
 const layout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
   return (
+    <>
+      <Toaster />
     <div className='grid grid-cols-2'>
       <div className="flex items-center justify-center min-h-screen bg-[url('/bg-left.png')] w-full object-cover p-4">
         <div className="text-white">
@@ -15,13 +18,14 @@ const layout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
             height={400}
             width={500}
             alt='main'
-          />
+            />
           <p className='font-bold font-sans text-center text-3xl'>Make your payments at lightning fast.</p>
           <p className='font-thin font-sans text-center text-xl mt-3'>What you are waiting for, let's connect</p>
         </div>
       </div>
       {children}
     </div>
+  </>
   )
 }
 
