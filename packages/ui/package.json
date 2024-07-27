@@ -7,7 +7,9 @@
     "./card": "./src/card.tsx",
     "./code": "./src/code.tsx",
     "./AppBar": "./src/AppBar.tsx",
+    "./SideBar": "./src/SideBar.tsx",
     "./TextField": "./src/TextField.tsx",
+    "./Loader": "./src/Loader.tsx",
     "./EyeIcon": "./src/icons/eyeIcon.tsx",
     "./components/*": "./src/components/*"
   },
@@ -37,6 +39,9 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
+    "@radix-ui/react-dropdown-menu": "^2.1.1",
+    "@radix-ui/react-label": "^2.1.0",
+    "@radix-ui/react-select": "^2.1.1",
     "@radix-ui/react-slot": "^1.1.0",
     "@repo/ui": "*",
     "class-variance-authority": "^0.7.0",
