@@ -4,6 +4,7 @@ import "./styles/globals.css";
 import { Providers } from "../providers";
 import { Suspense } from "react";
 import  Loader  from '@repo/ui/Loader'
+import { Toaster } from 'react-hot-toast'
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -28,6 +29,7 @@ export default function RootLayout({
     <html lang="en">
       <Providers>
         <body className={`${geistSans.variable} ${geistMono.variable}`}>
+          <Toaster />
           <Suspense fallback={<Loader />}>
               {children}
           </Suspense>
