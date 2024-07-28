@@ -22,14 +22,14 @@ export const Appbar = ({
         <div className="flex flex-col justify-center pt-2">
             {
                 user ? (
-                    <Button onClick={user ? onSignout : onSignin}>{user ? "Logout" : "Login"}</Button>
+                    <Button onClick={() => onSignout({ callbackUrl: '/', redirect:true })}> Logout</Button>
                 ):
                 (
                     <div className="flex gap-4">
-                        <Link href='/signin'>
-                            <Button onClick={() => {}}>Sign In</Button>
-                        </Link>
                         <Link href='/login'>
+                            <Button onClick={() => {}}>Sign Up</Button>
+                        </Link>
+                        <Link href='/signup'>
                             <Button onClick={() => {}}>Join Payzee</Button>
                         </Link>
                     </div>
