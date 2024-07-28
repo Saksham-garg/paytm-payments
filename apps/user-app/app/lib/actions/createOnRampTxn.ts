@@ -1,6 +1,5 @@
 "use server"
 import { getServerSession } from "next-auth";
-import { NextResponse } from "next/server";
 import { authOptions } from "../auth";
 import prisma from "@repo/db/client";
 
@@ -9,9 +8,10 @@ export async function createOnRampTransaction(amount:number,bank:string){
     try {
         const session = await getServerSession(authOptions)
         const token = Math.random().toString()
-        const userId = session.user.id
+        const userId = session?.user.id
+        console.log("userId",userId)
         if(!userId){
-            return NextResponse.json({message:"User not found!"},{status:400})
+            return {message:"User not found!"}
         }
 
         await prisma.onRampTransaction.create({
@@ -25,8 +25,8 @@ export async function createOnRampTransaction(amount:number,bank:string){
             }
         })
 
-        return NextResponse.json({message:"On Ramp Transaction added"},{ status:201 })
+        return {message:"On Ramp Transaction added"}
     } catch (error) {
-        return NextResponse.json(error,{status:500})
+        return {message:error}
     }
 }
