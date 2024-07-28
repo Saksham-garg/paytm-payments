@@ -1,5 +1,5 @@
 import db from "@repo/db/client";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import { NextResponse } from "next/server";
 
 export const POST = async(req:Request) => {
