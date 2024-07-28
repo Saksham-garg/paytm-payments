@@ -20,7 +20,10 @@ export async function middleware(request:NextRequest){
 
     if(!token &&
       (
-        url.pathname.startsWith('/dashboard')
+        url.pathname.startsWith('/dashboard') ||
+        url.pathname.startsWith('/transfer') ||
+        url.pathname.startsWith('/p2p') ||
+        url.pathname.startsWith('/transactions')
       )
       ){
         return NextResponse.redirect(url.origin + '/login')
