@@ -2,33 +2,35 @@
 import React from 'react'
 import { Button, buttonVariants } from "@repo/ui/components/button.tsx";
 import { Input } from "@repo/ui/components/input.tsx";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@repo/ui/components/select.tsx'
 import { Label } from "@repo/ui/components/label.tsx";
 import { useForm } from "@tanstack/react-form";
 import { authSchema, authTypeSchema } from "@repo/common/schema"
+import { transferP2P } from '@repo/common/transfer'
 import { zodValidator } from "@tanstack/zod-form-adapter";
+import { P2PTransfer } from '../../lib/actions/p2pTransfer';
+import toast from 'react-hot-toast';
+import { Loader } from 'lucide-react';
 
 const page = () => {
     const form = useForm({
         defaultValues: {
           number: '',
-          amount: ''
+          amount: null
         },
         onSubmit: async ({ value }) => {
-          console.log(value)
-          console.log(form)
-          //  signIn("credentials", formData)
+            try {
+              const response = await P2PTransfer(value.number,Number(value.amount))
+              if(response){
+                toast.success(response.message,{ duration:4000 })
+              }
+            } catch (error:any) {
+              toast.error(error.message,{ duration:4000 })
+            }
         },
         validatorAdapter: zodValidator(),
         validators: {
-          onSubmit: authSchema,
-          onChange: authSchema,
+          onSubmit: transferP2P,
+          onChange: transferP2P,
           onChangeAsyncDebounceMs: 100,
         },
       })
@@ -69,12 +71,12 @@ const page = () => {
                     <>
                         <Label htmlFor={field.name}>Amount</Label>
                         <Input
-                        type="string"
+                        type="number"
                         placeholder="Amount..."
-                        value={field.state.value}
+                        value={Number(field.state.value)}
                         name={field.name}
                         error={field.state.meta.errors.join(',')}
-                        onChange={(e) => field.handleChange(e.target.value)}
+                        onChange={(e) => field.handleChange(Number(e.target.value))}
                         />
                     </>
                     )}
@@ -84,8 +86,10 @@ const page = () => {
                 <form.Subscribe
                     selector={(state) => [state.canSubmit, state.isSubmitting]}
                     children={([canSubmit, isSubmitting]) => (
-                    <Button type="submit" className={buttonVariants({ variant: "ghost", size: "sm" })} >
-                        Send
+                    <Button type="submit" className={buttonVariants({ variant: "ghost", size: "sm" })} 
+                    disabled={!canSubmit}
+                    >
+                        Send { isSubmitting ? <Loader className='ml-2'/> :''}
                     </Button>
                     )}
                 />
