@@ -1,24 +1,11 @@
 "use client"
 import React, { useEffect, useState } from 'react'
-import { Button, buttonVariants } from "@repo/ui/components/button.tsx";
-import { Input } from "@repo/ui/components/input.tsx";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@repo/ui/components/select.tsx'
-import { Label } from "@repo/ui/components/label.tsx";
-import { useForm } from "@tanstack/react-form";
-import z,{ authSchema, authTypeSchema } from "@repo/common/schema"
-import { zodValidator } from "@tanstack/zod-form-adapter";
-import { Loader2 } from 'lucide-react';
-import { createOnRampTransaction } from '../../lib/actions/createOnRampTxn';
+import { Button } from "@repo/ui/components/button.tsx";
 import toast from 'react-hot-toast';
 import { getOnRampTransactions } from '../../lib/actions/getOnRampTxn';
 import { getUserBalance } from '../../lib/actions/getUserBalance';
 import axios from 'axios';
+
 const page = () => {
   const [ transactions, setTransactions ] = useState([])
   const [ balance,setBalance ] = useState(null)

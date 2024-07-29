@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link";
-import { useSession, signIn } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import { Button, buttonVariants } from "@repo/ui/components/button.tsx";
 import { Input } from "@repo/ui/components/input.tsx";
 import { Label } from "@repo/ui/components/label.tsx";
@@ -16,14 +16,12 @@ import { useRouter } from "next/navigation";
 
 const Login = () => {
   const router = useRouter()
-  const user = useSession()
   const form = useForm({
     defaultValues: {
       email: '',
       password: ''
     },
     onSubmit: async ({ value }) => {
-      console.log(process.env.NEXT_PUBLIC_NEXT_AUTH_REDIRECT_URL)
       const { error, ok, url } = await signIn("credentials", { ...value, callbackUrl: process.env.NEXT_PUBLIC_NEXT_AUTH_REDIRECT_URL, redirect: false }) as unknown as SignInResponse;
       if (error) {
         toast.error("Invalid Email or password.")
