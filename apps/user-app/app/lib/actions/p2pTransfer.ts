@@ -22,7 +22,7 @@ export const P2PTransfer = async(to:string,amount:number) => {
         }
 
         await prisma.$transaction(async (tx) => {
-
+            try {
             await tx.$queryRaw`SELECT * FROM "Balance" WHERE "userId" = ${Number(session.user?.id)} FOR UPDATE`
             
             const fromBalance = await prisma.balance.findFirst({
@@ -55,8 +55,24 @@ export const P2PTransfer = async(to:string,amount:number) => {
                     }
                 }
             })
+
+       
+            await tx.p2PTransaction.create({
+                data:{
+                    fromUserId: Number(session.user?.id),
+                    toUserId: Number(toUser.id),
+                    amount: amount,
+                    timestamp: new Date()
+                }
+            })
+            
+           } catch (error:any) {
+                throw new Error(error)
+           }
         })
+        return { message:`Successfully done payment to ${to}`, status:201}
     } catch (error) {
-        return {message:"Something went wrong",status:500}
+        console.log(error)
+        return {message:error,status:500}
     }
 }
