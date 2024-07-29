@@ -13,7 +13,6 @@ import { authSchema } from "@repo/common/schema"
 import { zodValidator } from "@tanstack/zod-form-adapter";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-import { redirect } from "next/navigation";
 const SignIn = () => {
   const router = useRouter()
   const form = useForm({
