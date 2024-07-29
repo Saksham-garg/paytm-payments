@@ -55,8 +55,6 @@ export const authOptions: NextAuthOptions = {
     callbacks: {
         // TODO: can u fix the type here? Using any is bad
         async jwt({token,user,account}){
-            console.log(account)
-            console.log(token)
             if(user){
                 token.accessToken = account?.access_token
                 token.email = user.email
@@ -66,7 +64,6 @@ export const authOptions: NextAuthOptions = {
             return Promise.resolve(token);
         },
         async session({ token, session }: any) {
-            console.log("token",token)
             if(token){
                 session.accessToken = token.accessToken
                 session.user.id = token.id
