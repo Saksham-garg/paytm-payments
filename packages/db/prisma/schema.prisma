@@ -20,8 +20,20 @@ model User {
   number   String   @unique
   isVerified  Boolean @default(false)
   password String
+  OTP       OTP[]
   Balance  Balance[]
   OnRampTransaction OnRampTransaction[]
+  receivedTransfers   P2PTransaction[] @relation(name: "ToUserRelation")
+  sendTransfers       P2PTransaction[]  @relation(name:"FromUserRelation")
+}
+
+model OTP {
+  id    Int @id @default(autoincrement())
+  userId Int  @unique
+  otp   Int 
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  user   User @relation(fields: [userId], references: [id])
 }
 
 model Merchant {
@@ -48,6 +60,16 @@ model OnRampTransaction {
   startTime DateTime
   userId  Int 
   user    User @relation(fields: [userId],references: [id])
+}
+
+model P2PTransaction {
+  id      Int @id @default(autoincrement())
+  timestamp   DateTime
+  amount    Int
+  fromUserId  Int   
+  fromUser      User @relation(name: "FromUserRelation",fields: [fromUserId],references: [id])
+  toUserId    Int
+  toUser      User @relation(name: "ToUserRelation",fields: [toUserId],references: [id])
 }
 enum AuthType {
   Google

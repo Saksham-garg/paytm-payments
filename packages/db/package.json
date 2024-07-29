@@ -10,12 +10,17 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@prisma/client": "^5.15.0"
+    "@mapbox/node-pre-gyp": "^1.0.11",
+    "@prisma/client": "^5.15.0",
+    "bcryptjs": "^2.4.3"
   },
   "exports": {
     "./client": "./index.ts"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
-}
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6"
+  }
 }
