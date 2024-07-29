@@ -11,7 +11,8 @@ import {
 } from '@repo/ui/components/select.tsx'
 import { Label } from "@repo/ui/components/label.tsx";
 import { useForm } from "@tanstack/react-form";
-import z,{ authSchema, authTypeSchema } from "@repo/common/schema"
+import z from "@repo/common/schema"
+import { balance,OnRampTransactionInterface } from "@repo/common/transfer"
 import { zodValidator } from "@tanstack/zod-form-adapter";
 import { Loader2 } from 'lucide-react';
 import { createOnRampTransaction } from '../../lib/actions/createOnRampTxn';
@@ -20,11 +21,13 @@ import { getOnRampTransactions } from '../../lib/actions/getOnRampTxn';
 import { getUserBalance } from '../../lib/actions/getUserBalance';
 const page = async() => {
   
-  const [ transactions, setTransactions ] = useState([])
-  const [ balance,setBalance ] = useState(null)
+  const [ transactions, setTransactions ] = useState<OnRampTransactionInterface[]>([])
+  const [ balance,setBalance ] = useState<balance>({
+    id: 0, userId: 0, amount: 0, locked: 0
+  })
   const form = useForm({
     defaultValues: {
-      amount: null,
+      amount: 0,
       bank: 'HDFC Bank'
     },
     onSubmit: async ({ value }) => {
@@ -100,10 +103,10 @@ const page = async() => {
                     <Input
                       type="number"
                       placeholder="Amount..."
-                      value={parseInt(field.state.value)}
+                      value={field.state.value}
                       name={field.name}
                       error={field.state.meta.errors.join(',')}
-                      onChange={(e) =>  field.handleChange(parseInt(e.target.value))}
+                      onChange={(e) =>  field.handleChange(e.target.valueAsNumber)}
                     />
                   </>
                 )}

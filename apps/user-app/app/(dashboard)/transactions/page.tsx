@@ -3,12 +3,15 @@ import React, { useEffect, useState } from 'react'
 import { Button } from "@repo/ui/components/button.tsx";
 import toast from 'react-hot-toast';
 import { getOnRampTransactions } from '../../lib/actions/getOnRampTxn';
+import { balance,OnRampTransactionInterface } from "@repo/common/transfer"
 import { getUserBalance } from '../../lib/actions/getUserBalance';
 import axios from 'axios';
 
 const page = () => {
-  const [ transactions, setTransactions ] = useState([])
-  const [ balance,setBalance ] = useState(null)
+  const [ transactions, setTransactions ] = useState<OnRampTransactionInterface[]>([])
+  const [ balance,setBalance ] = useState<balance>({
+    id: 0, userId: 0, amount: 0, locked: 0
+  })
 
   const fetchData = async () => {
     try {
@@ -39,7 +42,7 @@ const page = () => {
   }
   
   interface paymentInfoInterface {
-    userId: string,
+    userId: number,
     token: string,
     amount: Number,
     status:string
