@@ -1,17 +1,18 @@
 "use client"
-import React from 'react'
+import React,{useState,useEffect} from 'react'
 import { Button, buttonVariants } from "@repo/ui/components/button.tsx";
 import { Input } from "@repo/ui/components/input.tsx";
 import { Label } from "@repo/ui/components/label.tsx";
 import { useForm } from "@tanstack/react-form";
-import { authSchema, authTypeSchema } from "@repo/common/schema"
 import { transferP2P } from '@repo/common/transfer'
 import { zodValidator } from "@tanstack/zod-form-adapter";
 import { P2PTransfer } from '../../lib/actions/p2pTransfer';
 import toast from 'react-hot-toast';
 import { Loader } from 'lucide-react';
+import { P2PTransactions } from '../../lib/actions/getP2PTransactions';
 
 const page = () => {
+  const [ transactions, setTransactions ] = useState([])
     const form = useForm({
         defaultValues: {
           number: '',
@@ -34,8 +35,22 @@ const page = () => {
           onChangeAsyncDebounceMs: 100,
         },
       })
+
+      const fetchP2PTransactions = async() => {
+        try {
+          const response = await P2PTransactions()
+          console.log(response)
+          setTransactions(response)
+        } catch (error) {
+          setTransactions([])
+        }
+      }
+      useEffect(() => {
+        fetchP2PTransactions()
+      },[])
   return (
-    <div className='w-full h-full flex items-center justify-center'>
+    <div className='w-full h-full flex flex-col items-center justify-center gap-8'>
+
            <div className="h-min flex flex-col rounded-lg bg-white p-4 border min-w-96">
             <p className='border-b pb-3'>Send</p>
             <form
@@ -96,6 +111,46 @@ const page = () => {
                 </div>
             </form>
             </div>
+
+        <div className="flex flex-col rounded-lg bg-white p-4 border flex-1 w-full overflow-scroll">
+            <p className='border-b pb-3'>Recent Transactions</p>
+            <p className='border-b pb-3'>Recieved Transactions</p>
+            
+            {
+              transactions?.receivedTransfers?.length > 0 ? 
+              transactions.receivedTransfers.map((txn) => {
+                return  <div className="flex justify-between text-sm py-2 border-b" key={txn?.timestamp}>
+                  <div className="flex flex-col flex-1">
+                    <p>Received INR</p> 
+                    <p className='text-xs text-gray-400'>{txn?.timestamp.toDateString()}, {txn?.timestamp.toLocaleTimeString()}</p>
+                  </div>
+     
+                  <div className="flex flex-col items-end flex-1">
+                      <p>+ Rs {txn?.amount}</p>
+                      {/* <p className='rounded p-1' style={{color:getColor(txn?.status)}}>{ txn?.status}</p> */}
+                  </div>
+              </div>
+              }):"No received Transactions"
+            }
+            <p className='border-b pb-3'>Send Transactions</p>
+            
+            {
+              transactions?.sendTransfers?.length > 0 ? 
+              transactions.sendTransfers.map((txn) => {
+                return  <div className="flex justify-between text-sm py-2 border-b" key={txn?.timestamp}>
+                  <div className="flex flex-col flex-1">
+                    <p>Send INR</p> 
+                    <p className='text-xs text-gray-400'>{txn?.timestamp.toDateString()}, {txn?.timestamp.toLocaleTimeString()}</p>
+                  </div>
+     
+                  <div className="flex flex-col items-end flex-1">
+                      <p> Rs {txn?.amount}</p>
+                      {/* <p className='rounded p-1'>{ txn?.number}</p> */}
+                  </div>
+              </div>
+              }):"No received Transactions"
+            }
+          </div>
         </div>
   )
 }
