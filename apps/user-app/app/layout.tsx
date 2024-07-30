@@ -5,6 +5,7 @@ import { Providers } from "../providers";
 import { Suspense } from "react";
 import  Loader  from '@repo/ui/Loader'
 import { Toaster } from 'react-hot-toast'
+import React from 'react'
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -22,19 +23,19 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: {
+  children: React.ReactNode
+}):React.ReactElement {
   return (
     <html lang="en">
-      <Providers>
         <body className={`${geistSans.variable} ${geistMono.variable}`}>
+      <Providers>
           <Toaster />
           <Suspense fallback={<Loader />}>
               {children}
           </Suspense>
-        </body>
       </Providers>
+        </body>
     </html>
   );
 }

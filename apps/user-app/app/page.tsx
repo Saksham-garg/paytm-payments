@@ -2,8 +2,9 @@
 import { signIn, signOut, useSession } from "next-auth/react";
 import { Appbar } from "@repo/ui/AppBar";
 import Image from 'next/image'
+import React from "react";
 
-export default function Page({children}:{children:React.ReactNode}): JSX.Element {
+export default function Page({children}:{children:React.ReactNode}) {
   const session = useSession();
   return (
    <div className="flex flex-col">
