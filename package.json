@@ -5,11 +5,12 @@
     "build": "turbo build",
     "dev": "turbo dev",
     "lint": "turbo lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "start-user-app": "cd ./apps/user-app && npm run start"
   },
   "devDependencies": {
     "prettier": "^3.2.5",
-    "turbo": "^2.0.6",
+    "turbo": "latest",
     "typescript": "^5.4.5"
   },
   "engines": {
